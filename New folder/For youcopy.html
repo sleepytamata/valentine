@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine's Roses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font for the message -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset/Basic styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: calc(var(--vh, 1vh) * 100);
+      background: #000;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    /* Center */
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Great Vibes', cursive;
+      padding: 20px;
+      gap: 14px;
+      position: relative;
+    }
+
+    /* Glow heading */
+    h1 {
+      color: #ff0055;
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      text-shadow: 0 0 15px #fd004c;
+      user-select: none;
+      animation: fadeIn 2s ease-out;
+      z-index: 2;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* Sweet message */
+    .love-message {
+      color: #fff;
+      font-size: clamp(16px, 3.8vw, 25px);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      width: min(92vw, 650px);
+      line-height: 1.7;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: rgba(255, 20, 147, 0.2);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+      animation: glow 2s infinite alternate ease-in-out;
+      z-index: 2;
+
+      /* mobile safe */
+      max-height: 42vh;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide scrollbar (optional, looks cleaner) */
+    .love-message::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    /* Glowing animation */
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px rgba(255, 20, 147, 0.4); }
+      100% { box-shadow: 0 0 25px rgba(255, 20, 147, 0.8); }
+    }
+
+    /* The pic that sways */
+    .bouquet {
+      width: min(320px, 80vw);
+      height: auto;
+      border-radius: 18px;
+      animation: sway 3s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+      filter: drop-shadow(0 0 10px rgba(255,0,102,0.5));
+      z-index: 2;
+      object-fit: cover;
+    }
+
+    /* White sparkly stars in the back */
+    .spark {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: sparkle 2s infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Floating hearts animation */
+    .heart {
+      position: absolute;
+      font-size: 30px;
+      color: rgb(252, 10, 2);
+      animation: floatHearts 5s linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes floatHearts {
+      0% { transform: translateY(110vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Sway the image left to right gentle */
+    @keyframes sway {
+      0%   { transform: rotate(-2deg) }
+      100% { transform: rotate(2deg) }
+    }
+
+    /* Sparks twinkle in and out */
+    @keyframes sparkle {
+      0%   { opacity: 0; transform: scale(0); }
+      50%  { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0); }
+    }
+
+    /* Fade in for the heading */
+    @keyframes fadeIn {
+      0%   { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Extra small screens (very tiny phones) */
+    @media (max-width: 360px) {
+      .love-message {
+        max-height: 38vh;
+        padding: 14px;
+      }
+      .bouquet {
+        width: 78vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Valentines heading -->
+  <h1>Happy Valentine's Day</h1>
+
+  <!-- Message with glow -->
+  <div class="love-message">
+    My sweetest, my most precious David,<br><br>
+
+    You are the love that fills my heart, the air that gives me life, and the dream I never want to wake up from.
+    Every moment with you is a gift, every second I hold a treasure like you so close.
+    I will love you fiercely, endlessly, and with every part of my soul, heart and lungs.<br><br>
+
+    No matter what tomorrow brings, I will always stand by your side, to cherish you, to adore you,
+    and to make your heart blossom with my love every single day.<br><br>
+
+    You are my forever, my home, my greatest lucky charm. ❤️<br>~
+  </div>
+
+  <!-- image -->
+  <img class="bouquet" src="IMG_20260109_233150.jpg" alt="Heart Shaped Hands">
+
+  <script>
+    // Detect mobile
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
+    // Fix iPhone / mobile 100vh issues
+    function setVh() {
+      document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
+    }
+    setVh();
+    window.addEventListener('resize', setVh);
+
+    // Adjust counts for mobile performance
+    const sparkCount = isMobile ? 25 : 55;
+    const heartIntervalTime = isMobile ? 900 : 500;
+
+    // Create sparks
+    for (let i = 0; i < sparkCount; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'spark';
+      spark.style.left = Math.random() * 100 + '%';
+      spark.style.top = Math.random() * 100 + '%';
+      spark.style.animationDelay = (Math.random() * 2) + 's';
+      spark.style.opacity = Math.random();
+      document.body.appendChild(spark);
+    }
+
+    // Create floating hearts
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = isMobile ? '22px' : '30px';
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }, heartIntervalTime);
+
+    // Tap to spawn hearts on mobile (cute + interactive)
+    document.addEventListener('touchstart', (e) => {
+      if (!isMobile) return;
+
+      const touch = e.touches[0];
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '❤️';
+
+      heart.style.left = touch.clientX + 'px';
+      heart.style.top = touch.clientY + 'px';
+      heart.style.position = 'absolute';
+      heart.style.fontSize = '24px';
+      heart.style.animationDuration = '2.5s';
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 3000);
+    });
+  </script>
+
+</body>
+</html>
